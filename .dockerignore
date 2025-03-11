@@ -1,0 +1,18 @@
+# Mengabaikan folder build dan hasil publish
+bin/
+obj/
+publish/
+
+# Mengabaikan file sementara dan log
+*.log
+
+# Mengabaikan file konfigurasi atau file lingkungan yang sensitif
+.env
+docker-compose.yml
+
+# Mengabaikan file proyek atau solusi jika tidak diperlukan di dalam container
+PostgresReaderApp.sln
+
+# Mengabaikan file atau folder lain yang tidak diperlukan
+Dockerfile
+README.md

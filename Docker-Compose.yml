@@ -1,0 +1,31 @@
+services:
+  postgres-reader-app:
+    build: .
+    container_name: postgres-reader-app
+    image: postgres-reader-app:1.0
+    env_file:
+      - .env
+    networks:
+      - oee_network
+    depends_on:
+      - timescaledb-pg14
+    volumes:
+      - D:/data/oee:/app/reckit_json
+    restart: unless-stopped # Auto-restart setelah reboot
+
+  timescaledb-pg14:
+    image: timescale/timescaledb:2.18.0-pg14-oss
+    container_name: timescaledb-pg14
+    env_file:
+      - .env
+    ports:
+      - "5432:5432" # Port mapping
+    networks:
+      - oee_network
+    volumes:
+      - D:/data/timescaledb_postgres:/var/lib/postgresql/data
+    restart: unless-stopped # Auto-restart setelah reboot
+
+networks:
+  oee_network:
+    external: true
