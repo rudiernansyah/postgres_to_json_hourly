@@ -175,8 +175,8 @@ class Program
 
         string query = @"SELECT date_time, plant_name, line_name, output_1, output_2, total_output 
                           FROM hourly_good_production 
-                          ORDER BY created_at ASC, date_time ASC
-                          LIMIT 17";
+                          WHERE date_time = (SELECT MAX(date_time) FROM hourly_good_production)
+                          ORDER BY created_at ASC, date_time ASC";
 
         string outputFolder = "reckit_json";
         string outputFile = Path.Combine(outputFolder, "data.json");
