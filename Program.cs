@@ -11,20 +11,34 @@ class Program
 {
     static async Task Main()
     {
-        Env.Load();
-        Console.WriteLine("Waiting 10 seconds before connecting database...");
-        await Task.Delay(10000); // Menunggu 10 detik sebelum memuat .env
-
-        await SetTimezone();
-        await EnsureTableExists();
-        await DeleteOldRecords();
-        await ExportDataToJson();
-
         while (true)
         {
-            await WaitForNextInterval();
-            await DeleteOldRecords();
-            await ExportDataToJson();
+            try
+            {
+                Console.WriteLine($"[Main Start] {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+
+                Env.Load();
+                Console.WriteLine("Waiting 10 seconds before connecting database...");
+                await Task.Delay(10000); // Menunggu 10 detik sebelum memuat .env
+
+                await SetTimezone();
+                await EnsureTableExists();
+                //await DeleteOldRecords();
+                await ExportDataToJson();
+
+                while (true)
+                {
+                    await WaitForNextInterval();
+                    //await DeleteOldRecords();
+                    await ExportDataToJson();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] {DateTime.Now:yyyy-MM-dd HH:mm:ss} FATAL ERROR: {ex.Message}");
+                Console.WriteLine("Restarting the application in 15 seconds...");
+                await Task.Delay(15000); // Tunggu sebelum ulang agar tidak crash loop
+            }
         }
     }
 

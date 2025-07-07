@@ -11,7 +11,9 @@ services:
       - timescaledb-pg14
     volumes:
       - D:/data/oee:/app/reckit_json
+    #- C:/Rudi/data/postgres_app_reader:/app/reckit_json
     restart: unless-stopped # Auto-restart setelah reboot
+    mem_limit: 256m  # Batas maksimum RAM untuk reader app
 
   timescaledb-pg14:
     image: timescale/timescaledb:2.18.0-pg14-oss
@@ -24,7 +26,9 @@ services:
       - oee_network
     volumes:
       - D:/data/timescaledb_postgres:/var/lib/postgresql/data
+    #- C:/Rudi/data/timescaledb_postgres:/var/lib/postgresql/data
     restart: unless-stopped # Auto-restart setelah reboot
+    mem_limit: 1g  # Batas maksimum RAM untuk database
 
 networks:
   oee_network:
